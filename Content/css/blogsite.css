@@ -1,0 +1,31 @@
+.main-search {
+    width: 50%;
+    margin: 50px auto;
+}
+
+.search-form {
+    width: 100%;
+    display: inherit;
+}
+  
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+
+.main-pages {
+    width: 100%;
+    margin-bottom: 50px;
+    text-align: center;
+}
