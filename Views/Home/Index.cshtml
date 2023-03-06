@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SitecorePoweredBlog.Models.Blog>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    @{ ViewBag.Title = "Home"; }
+
+    @Styles.Render("~/Content/css/custom")
+</head>
+
+<body>
+    <main role="main" class="container blog-posts">
+
+        <div class="main-search">
+            <div class="input-group">
+                @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "search-form" }))
+                {
+                    //<input type="text" class="form-control" placeholder="Search this blog">
+                    @Html.TextBox("BlogTitle", null, new { @class = "form-control", @placeholder = "Search a blog by title" });
+                    <div class="input-group-append">
+                        <!-- <button type="button" class="btn btn-dark">Search</button> -->
+                        <input type="submit" class="btn btn-dark" value="Search">
+                    </div>
+                }
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <!-- Begin Repeating Elements Area -->
+            @foreach (var bl in Model)
+            {<!-- Begin Repeating Element -->
+                <div class="blog-post-card card col-lg-4 col-md-6">
+                    <img class="card-img-top" src="../../content/images/@bl.SmallImage" alt="Card image cap">
+                    <div class="card-body bg-light">
+                        <strong class="d-inline-block mb-2 text-success">@bl.Category</strong>
+                        <h3 class="card-title">@bl.Title</h3>
+                        <div class="mb-1 text-muted">
+                            @bl.Date.ToString("MMM d, yyyy")
+                        </div>
+                        <p>@bl.ShortText</p>
+                        <p class="btn btn-warning btn-block">@Html.ActionLink("Read on", "Index", "Blog", new { id = bl.BlogId }, new { style = "color: white; text-decoration: none" })</p>
+                    </div>
+                </div>
+                <!-- End Repeating Element -->
+            }
+            <!-- End Repeating Elements Area -->
+
+            <br>
+
+            <div class="main-pages">
+                @{ 
+                    int totalblogs = (int)ViewBag.TotalBlogs; 
+                    int page_id = ViewBag.PageID; 
+                    double pages = (double)totalblogs / 2; 
+                    int pages_no = (int)Math.Ceiling(pages); 
+                
+                    if (ViewBag.BlogTitle != null)
+                    {
+                        TempData["BlogTitle"] = ViewBag.BlogTitle;
+                    }
+                }
+                @for (int i = 1; i <= pages_no; i++)
+                {
+                    if (i == page_id)
+                    {
+                        <button type="button" class="btn btn-dark"> @Html.ActionLink($"{i}", "Index", "Home", new { id = i }, new { style = "color: red; text-decoration: none" }) </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-dark"> @Html.ActionLink($"{i}", "Index", "Home", new { id = i }, new { style = "color: white; text-decoration: none" }) </button>
+                    }
+                }
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
